@@ -1,0 +1,28 @@
+todo:
+- create a number converson question to challenge the user
+- choose between number conversion mode and question challenge mode
+- create 10 random question challenge in terminal decimal to binary
+- choose challenge from/to between binary, decimal, hexadecimal
+- add free for all mode, e.g. from/to any format
+- add 1 minute timer
+- add high score
+
+nicetohave:
+- accept 1 digit hexadecimal numbers
+- accept 2 digit hexadecimal numbers with only additional zero's at the front
+- accept 8 digit binary numbers with only additional zero's at the front
+- accept binary numbers with less than 8 digits
+
+completed:
+- create folder structure according to controller, service, repository model
+- create a calculation service file
+- create method to validate input string: valid binary number with a max value of 11111111
+- create method to validate input string: valid decimal number with a max value of 255
+- create method to validate input string: valid hexadecimal number with a max value of FF
+- create method toconvert decimal number to 8 digit binary number
+- create method toconvert 8 digit binary number to decimal number
+- create method to convert decimal number to 2 digit hexadecimal number
+- create method to convert 2 digit hexadecimal number to decimal number
+- create a terminal controller to interact with the user
+- convert user input numbers to decimal, hexadecimal and binary in the terminal
+- create todo.txt file
