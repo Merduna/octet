@@ -1,4 +1,4 @@
-package res.model;
+package model;
 
 public class Question {
     private char type;

@@ -1,14 +1,14 @@
-package res.controller;
+package controller;
 
 import java.util.Scanner;
 
-import res.model.Constants;
-import res.model.Question;
-import res.service.CalcService;
-import res.service.QuestionService;
+import model.Constants;
+import model.Question;
+import service.ConversionService;
+import service.QuestionService;
 
 public class Controller {
-    private CalcService calcService = new CalcService();
+    private ConversionService conversionService = new ConversionService();
     private QuestionService questionService = new QuestionService();
     private Scanner scan = new Scanner(System.in);
     
@@ -60,21 +60,21 @@ public class Controller {
         String userInput = scan.nextLine();
 
         // Check whether the input is valid and handles the conversion
-        if (calcService.validBinary(userInput)) {
+        if (conversionService.validBinary(userInput)) {
             message = "\nYou've entered a binary number: " + userInput;
-            handleNumberConversion(calcService.binToDec(userInput), message);
+            handleNumberConversion(conversionService.binToDec(userInput), message);
 
-        } else if (calcService.validHexadecimal(userInput)) {
+        } else if (conversionService.validHexadecimal(userInput)) {
             message = "\nYou've entered a hexadecimal number: " + userInput;
-            handleNumberConversion(calcService.hexToDec(userInput), message);
+            handleNumberConversion(conversionService.hexToDec(userInput), message);
 
             // Many hexadecimal numbers are also valid decimal numbers
-            if (calcService.validDecimal(userInput)) {
+            if (conversionService.validDecimal(userInput)) {
             message = "\nIt is a valid decimal number as well: " + userInput;
             handleNumberConversion(Integer.parseInt(userInput), message);
             }
 
-        } else if (calcService.validDecimal(userInput)) {
+        } else if (conversionService.validDecimal(userInput)) {
             message = "\nYou've entered a decimal number: " + userInput;
             handleNumberConversion(Integer.parseInt(userInput), message);
 
@@ -86,7 +86,7 @@ public class Controller {
     public void handleNumberConversion(int decimalValue, String message) {
         System.out.println(message);
         System.out.println("\nThe decimal equivalent is: " + decimalValue);
-        System.out.println("The binary equivalent is: " + calcService.decToBin(decimalValue));
-        System.out.println("The hexadecimal equivalent is: " + calcService.decToHex(decimalValue));
+        System.out.println("The binary equivalent is: " + conversionService.decToBin(decimalValue));
+        System.out.println("The hexadecimal equivalent is: " + conversionService.decToHex(decimalValue));
     }
 }

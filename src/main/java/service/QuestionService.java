@@ -1,4 +1,4 @@
-package res.service;
+package service;
 
 import java.util.Random;
 
@@ -8,7 +8,7 @@ import model.Question;
 public class QuestionService {
     
     private Random rand = new Random();
-    private CalcService conversionService = new CalcService();
+    private ConversionService conversionService = new ConversionService();
     public Question question;
 
     public Question newQuestion(char type) {
