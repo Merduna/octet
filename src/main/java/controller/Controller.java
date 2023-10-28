@@ -6,11 +6,33 @@ import model.Constants;
 import model.Question;
 import service.ConversionService;
 import service.QuestionService;
+import service.InputValidationService;
 
 public class Controller {
     private ConversionService conversionService = new ConversionService();
     private QuestionService questionService = new QuestionService();
+    private InputValidationService inputValidationService = new InputValidationService();
     private Scanner scan = new Scanner(System.in);
+    
+    public void mainMenu() {
+        
+        System.out.println("Welcome to Octet!");
+        while (true) {
+            System.out.print("\nWhat do you want to do? \n1: Number Conversion Challenge \n2: Number Converter \n3: Quit\n\nEnter an option number to continue: ");
+            String choice = "";
+            // 
+            while (!(inputValidationService.isValidDecimal(choice, 1, 3))) {
+                choice = scan.nextLine();
+            }
+            if (Integer.parseInt(choice) == 1) {
+                numberQuestion(Constants.RANDOM_TO_RANDOM);
+            } else if (Integer.parseInt(choice) == 2) {
+                numberConversion();
+            } else if (Integer.parseInt(choice) == 3) {
+                System.exit(0);
+            }
+        }
+    }
     
     public void numberQuestion(char type) {
         Question newQuestion = questionService.newQuestion(type);
@@ -60,21 +82,21 @@ public class Controller {
         String userInput = scan.nextLine();
 
         // Check whether the input is valid and handles the conversion
-        if (conversionService.validBinary(userInput)) {
+        if (inputValidationService.validBinary(userInput)) {
             message = "\nYou've entered a binary number: " + userInput;
             handleNumberConversion(conversionService.binToDec(userInput), message);
 
-        } else if (conversionService.validHexadecimal(userInput)) {
+        } else if (inputValidationService.validHexadecimal(userInput)) {
             message = "\nYou've entered a hexadecimal number: " + userInput;
             handleNumberConversion(conversionService.hexToDec(userInput), message);
 
             // Many hexadecimal numbers are also valid decimal numbers
-            if (conversionService.validDecimal(userInput)) {
+            if (inputValidationService.isValidDecimal(userInput, 0, 255)) {
             message = "\nIt is a valid decimal number as well: " + userInput;
             handleNumberConversion(Integer.parseInt(userInput), message);
             }
 
-        } else if (conversionService.validDecimal(userInput)) {
+        } else if (inputValidationService.isValidDecimal(userInput, 0, 255)) {
             message = "\nYou've entered a decimal number: " + userInput;
             handleNumberConversion(Integer.parseInt(userInput), message);
 

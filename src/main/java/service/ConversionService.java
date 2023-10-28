@@ -1,41 +1,12 @@
 package service;
+import model.Constants;
 
-public class ConversionService {
-
-    // Char array with the hexadecimal digits
-    public char[] hexChars = {'0','1','2','3','4','5','6','7','8','9','A','B','C','D','E','F'};
+public class ConversionService {   
     
-    // Checks whether the user input is an integer with a value of max 255.
-    public boolean validDecimal(String input) {
-        try {
-            int i = Integer.parseInt(input);
-            return (i <= 255);
-        } catch (Exception e) {
-            return false;
-        }  
-    }
-
-    // Checks whether the user input is a 2 digit hexadecimal number.
-    public boolean validHexadecimal(String input) {
-        if (input.length() != 2) {
-            return false;
-        }
-        return (new String(hexChars).contains("" + input.charAt(0))) && (new String(hexChars).contains("" + input.charAt(1)));        
-    }
-    
-    // Checks whether the user input is an 8 digit binary number.
-    public boolean validBinary(String input) {
-        if (!(input.length() == 8)) return false;
-        for (int i = 0; i < input.length(); i++) {
-            if (!((input.charAt(i) == '0') || (input.charAt(i) == '1'))) return false;
-        }
-        return true;
-    }
-
     // Converts a decimal number with a value of max 255 into a 2 digit hexadecimal number.
     public String decToHex(int decimal) {
-        char firstDigit = hexChars[decimal / 16];
-        char secondDigit = hexChars[decimal % 16];
+        char firstDigit = Constants.HEX_CHARS[decimal / 16];
+        char secondDigit = Constants.HEX_CHARS[decimal % 16];
         return "" + firstDigit + secondDigit;
     }
 
@@ -43,11 +14,11 @@ public class ConversionService {
     public int hexToDec(String hexadecimal) {
         int firstDigit = 0;
         int secondDigit = 0;
-        for (int i = 0; i < hexChars.length; i++) {
-            if (hexChars[i] == hexadecimal.charAt(0)) {
+        for (int i = 0; i < Constants.HEX_CHARS.length; i++) {
+            if (Constants.HEX_CHARS[i] == hexadecimal.charAt(0)) {
                 firstDigit = i;
             }
-            if (hexChars[i] == hexadecimal.charAt(1)) {
+            if (Constants.HEX_CHARS[i] == hexadecimal.charAt(1)) {
                 secondDigit = i;
             }
         }

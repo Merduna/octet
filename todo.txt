@@ -1,8 +1,4 @@
 todo:
-- create app user interface
-- add welcome message
-- add goodbye message
-- create user input prompt to choose between number conversion mode and question challenge mode and exit
 - create user input prompt input to choose between different challenge modes and exit
 - create a loop for x questions that can interact with the numberQuestion
 - create user input to prompt for the amount of questions they want to answer
@@ -62,4 +58,10 @@ completed:
 - redo folder structure: rename res to java, create parent folders /src/main
 - compile classes into /bin
 - create README file
+- add vscode config files
+- move input validation from ConversionService to new InputValidationService class
+- add HEX_CHARS char array constant
+- add DEFAULT_INVALID_VALUE constant
+- add comments to Constants class
+- add mainMenu in controller to navigate between number conversion and challenge
 - update todo.txt
