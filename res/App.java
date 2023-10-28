@@ -1,5 +1,3 @@
-package res;
-
 import res.controller.Controller;
 
 public class App {

@@ -1,80 +1,54 @@
 package res.controller;
 
-import java.util.Random;
 import java.util.Scanner;
 
+import res.model.Constants;
+import res.model.Question;
 import res.service.CalcService;
+import res.service.QuestionService;
 
 public class Controller {
     private CalcService calcService = new CalcService();
-    private Random rand = new Random();
+    private QuestionService questionService = new QuestionService();
     private Scanner scan = new Scanner(System.in);
-
-    /* 'B' and 'b' for binary conversions
-     * 'H' and 'h' for hexadecimal conversions
-     * 'N' and 'n' for conversions between binary and hexadecimal*/
-    private char[] questionTypeOptions = {'B','b','H','h','N','n'};
     
-    public void numberQuestion(char type) {    
-        int question = rand.nextInt(256);
-        if (type == 'R') {
-            type = questionTypeOptions[rand.nextInt(6)];
-        }
-        String solution = setSolution(type, question);
-        String questionString = getQuestionString(type, question);
-        promptQuestion(type, questionString);
-        String answer = scan.nextLine(); 
-        showSolution(questionString, answer, solution);        
+    public void numberQuestion(char type) {
+        Question newQuestion = questionService.newQuestion(type);
+        promptQuestion(newQuestion);
+        newQuestion.setAnswer(scan.nextLine()); 
+        showSolution(newQuestion);        
     }
-
-    public String setSolution(char type, int question) {
-        if (type == 'B' || type == 'n') {
-            return calcService.decToBin(question);         
-        } else if (type == 'H' || type == 'N') {
-            return calcService.decToHex(question);
-        }
-        return question + "";
-    }
-
-    public String getQuestionString(char type, int question) {
-        if (type == 'b' || type == 'N') {
-            return calcService.decToBin(question);         
-        } else if (type == 'h' || type == 'n') {
-            return calcService.decToHex(question);
-        }
-        return question + "";
-    }
-    
-    public void promptQuestion(char type, String questionString) {
+   
+    public void promptQuestion(Question question) {
         String prompt = "";
-        switch(type) {
-            case 'B':
-                prompt = "Provide the 8 bit binary equivalent of this decimal number: " + questionString;
+        switch(question.getType()) {
+            case Constants.DECIMAL_TO_BINARY:
+                prompt = "Provide the 8 bit binary equivalent of this decimal number: " + question.getQuestion();
                 break;
-            case 'H':
-                prompt = "Provide the 2 digit hexadecimal equivalent of this decimal number: " + questionString;
+            case Constants.DECIMAL_TO_HEX:
+                prompt = "Provide the 2 digit hexadecimal equivalent of this decimal number: " + question.getQuestion();
                 break;
-            case 'b':
-                prompt = "Provide the decimal equivalent of this 8 bit binary number: " + questionString;
+            case Constants.BINARY_TO_DECIMAL:
+                prompt = "Provide the decimal equivalent of this 8 bit binary number: " + question.getQuestion();
                 break;
-            case 'h':
-                prompt = "Provide the decimal equivalent of this hexadecimal number: " + questionString;
+            case Constants.HEX_TO_DECIMAL:
+                prompt = "Provide the decimal equivalent of this hexadecimal number: " + question.getQuestion();
                 break;
-            case 'N':
-                prompt = "Provide the hexadecimal equivalent of this binary number: " + questionString;
+            case Constants.BINARY_TO_HEX:
+                prompt = "Provide the hexadecimal equivalent of this binary number: " + question.getQuestion();
                 break;
-            case 'n':
-                prompt = "Provide the binary equivalent of this hexadecimal number: " + questionString;
+            case Constants.HEX_TO_BINARY:
+                prompt = "Provide the binary equivalent of this hexadecimal number: " + question.getQuestion();
                 break;
         }
         System.out.println(prompt);
     }
 
-    public void showSolution(String question, String answer, String solution) {
-        if (answer.equals(solution)) {          
-            System.out.println("Correct!\nOriginal number: "+ question +  "\nYour input: " + answer + "\nCorrect answer: " + solution);
+    public void showSolution(Question question) {
+        if (question.getAnswer().equals(question.getSolution())) {          
+            System.out.println("Correct!\nOriginal number: "+ question.getQuestion() +  "\nYour input: " + question.getAnswer() + "\nCorrect answer: " + question.getSolution());
         } else {
-            System.out.println("Incorrect!\nOriginal number: "+ question +  "\nYour input: " + answer + "\nCorrect answer: " + solution);
+            System.out.println("Incorrect!\nOriginal number: "+ question.getQuestion() +  "\nYour input: " + question.getAnswer() + "\nCorrect answer: " + question.getSolution());
         }  
     }
 

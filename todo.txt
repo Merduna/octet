@@ -1,5 +1,4 @@
 todo:
-- create constants file for questionTypeOptions 'B', 'b', 'H', 'h', 'N', and 'n' 
 - create app user interface
 - add welcome message
 - add goodbye message
@@ -12,7 +11,6 @@ todo:
 - create user input to prompt if they want to use a timer
 - make timer adjustable
 - create user input to prompt if they want to use a timer
-- create Question class
 - create Repository layer
 - store results locally
 - add high score system
@@ -52,4 +50,12 @@ completed:
 - break the logic in numberQuestion down into smaller functions, setSolution, getQuestionString, promptQuestion, showSolution
 - use switch statement instead of multiple 'else if'
 - create model folder
+- update todo.txt
+
+28-10
+- create model folder
+- add Question class to model
+- add Constants class to model for questionTypeOptions
+- add QuestionService class
+- move logic from Controller class to QuestionService class: setSolution, getQuestionString, random question generation
 - update todo.txt
