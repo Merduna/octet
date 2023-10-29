@@ -3,6 +3,7 @@ package controller;
 import java.util.Scanner;
 
 import model.Constants;
+import model.Conversion;
 import model.Question;
 import service.ConversionService;
 import service.QuestionService;
@@ -15,100 +16,132 @@ public class Controller {
     private Scanner scan = new Scanner(System.in);
     
     public void mainMenu() {
-        
-        System.out.println("Welcome to Octet!");
-        while (true) {
+        String choice = "";
+        while (choice != "3") {
+            clearConsole();
+            System.out.println("Welcome to Octet!");
             System.out.print("\nWhat do you want to do? \n1: Number Conversion Challenge \n2: Number Converter \n3: Quit\n\nEnter an option number to continue: ");
-            String choice = "";
-            // 
-            while (!(inputValidationService.isValidDecimal(choice, 1, 3))) {
-                choice = scan.nextLine();
-            }
-            if (Integer.parseInt(choice) == 1) {
-                numberQuestion(Constants.RANDOM_TO_RANDOM);
-            } else if (Integer.parseInt(choice) == 2) {
-                numberConversion();
-            } else if (Integer.parseInt(choice) == 3) {
-                System.exit(0);
+            choice = scan.nextLine();
+            if (inputValidationService.isValidDecimal(choice, 1, 3)) {
+                if (Integer.parseInt(choice) == 1) {
+                    numberQuestion(Constants.RANDOM_TO_RANDOM);
+                } else if (Integer.parseInt(choice) == 2) {
+                    numberConversion();
+                } else if (Integer.parseInt(choice) == 3) {
+                    System.out.println("\nThank you for using Octet! Goodbye.");
+                    System.exit(0);
+                } else {
+                    System.out.println("\nInvalid input: \"" + choice + "\"");
+                    promptEnterKey("");
+                } 
+            } else {
+                 System.out.println("\nInvalid input: \"" + choice + "\"");
+                 promptEnterKey("");
             }
         }
     }
     
     public void numberQuestion(char type) {
+        clearConsole();
         Question newQuestion = questionService.newQuestion(type);
         promptQuestion(newQuestion);
         newQuestion.setAnswer(scan.nextLine()); 
-        showSolution(newQuestion);        
+        showSolution(newQuestion);
+        promptEnterKey("\nPress \"ENTER\" to return to the main menu ");        
     }
    
     public void promptQuestion(Question question) {
         String prompt = "";
         switch(question.getType()) {
             case Constants.DECIMAL_TO_BINARY:
-                prompt = "Provide the 8 bit binary equivalent of this decimal number: " + question.getQuestion();
+                prompt = "Provide the 8 bit binary equivalent of this decimal number: " + question.getQuestion() + "\nYour answer: ";
                 break;
             case Constants.DECIMAL_TO_HEX:
-                prompt = "Provide the 2 digit hexadecimal equivalent of this decimal number: " + question.getQuestion();
+                prompt = "Provide the 2 digit hexadecimal equivalent of this decimal number: " + question.getQuestion() + "\nYour answer: ";
                 break;
             case Constants.BINARY_TO_DECIMAL:
-                prompt = "Provide the decimal equivalent of this 8 bit binary number: " + question.getQuestion();
+                prompt = "Provide the decimal equivalent of this 8 bit binary number: " + question.getQuestion() + "\nYour answer: ";
                 break;
             case Constants.HEX_TO_DECIMAL:
-                prompt = "Provide the decimal equivalent of this hexadecimal number: " + question.getQuestion();
+                prompt = "Provide the decimal equivalent of this hexadecimal number: " + question.getQuestion() + "\nYour answer: ";
                 break;
             case Constants.BINARY_TO_HEX:
-                prompt = "Provide the hexadecimal equivalent of this binary number: " + question.getQuestion();
+                prompt = "Provide the hexadecimal equivalent of this binary number: " + question.getQuestion() + "\nYour answer: ";
                 break;
             case Constants.HEX_TO_BINARY:
-                prompt = "Provide the binary equivalent of this hexadecimal number: " + question.getQuestion();
+                prompt = "Provide the binary equivalent of this hexadecimal number: " + question.getQuestion() + "\nYour answer: ";
                 break;
         }
-        System.out.println(prompt);
+        System.out.print(prompt);
     }
 
     public void showSolution(Question question) {
         if (question.getAnswer().equals(question.getSolution())) {          
-            System.out.println("Correct!\nOriginal number: "+ question.getQuestion() +  "\nYour input: " + question.getAnswer() + "\nCorrect answer: " + question.getSolution());
+            System.out.println("\nCorrect!\nOriginal number: "+ question.getQuestion() +  "\nYour input: " + question.getAnswer() + "\nCorrect answer: " + question.getSolution());
         } else {
-            System.out.println("Incorrect!\nOriginal number: "+ question.getQuestion() +  "\nYour input: " + question.getAnswer() + "\nCorrect answer: " + question.getSolution());
+            System.out.println("\nIncorrect!\nOriginal number: "+ question.getQuestion() +  "\nYour input: " + question.getAnswer() + "\nCorrect answer: " + question.getSolution());
         }  
     }
 
-    public void numberConversion() {
+    public void promptEnterKey(String message) {
+        if (message.length() == 0) {
+            // Default message
+            message = "Press \"ENTER\" to continue ";
+        }
+        System.out.print(message);
+        scan.nextLine();
+    }
 
-        // Prompt user to input a decimal, 2 digit hexadecimal or 8 digit binary number with a decimal value of max 255.
-        String message = "";
-        System.out.print("Please enter a number with a max. value of:\n - 255 (decimal)\n - 11111111 (binary)\n - FF (hexadecimal)\n\nYour input: "); 
-        String userInput = scan.nextLine();
-
-        // Check whether the input is valid and handles the conversion
-        if (inputValidationService.validBinary(userInput)) {
-            message = "\nYou've entered a binary number: " + userInput;
-            handleNumberConversion(conversionService.binToDec(userInput), message);
-
-        } else if (inputValidationService.validHexadecimal(userInput)) {
-            message = "\nYou've entered a hexadecimal number: " + userInput;
-            handleNumberConversion(conversionService.hexToDec(userInput), message);
-
-            // Many hexadecimal numbers are also valid decimal numbers
-            if (inputValidationService.isValidDecimal(userInput, 0, 255)) {
-            message = "\nIt is a valid decimal number as well: " + userInput;
-            handleNumberConversion(Integer.parseInt(userInput), message);
+    // Prompt user to input a decimal, 2 digit hexadecimal or 8 digit binary number with a decimal value of max 255.
+    public String promptNumber() {
+        String userNumber = "";
+        while (true) {
+            clearConsole();
+            System.out.print("Please enter a number with a max. value of:\n- 255 (decimal)\n- 11111111 (8 digit binary)\n- FF (2 digit hexadecimal)\n\nYour input: ");
+            userNumber = scan.nextLine();
+            if (inputValidationService.isValidNumber(userNumber)) {
+                return userNumber;
+            } else {
+                System.out.println("\nInvalid input: \"" + userNumber + "\"\n\nPlease enter a number with a decimal value of max. 255." +
+                "\nWhen entering a non-decimal number, please enter exactly:\n- 2 digits for a hexadecimal number\n- 8 digits for a binary number\n");
+                promptEnterKey("");
+                return promptNumber();
             }
-
-        } else if (inputValidationService.isValidDecimal(userInput, 0, 255)) {
-            message = "\nYou've entered a decimal number: " + userInput;
-            handleNumberConversion(Integer.parseInt(userInput), message);
-
-        } else {
-            System.out.println("You've entered "+ userInput + ".\nThis is not a valid number of max:\n - 255 (decimal)\n - 11111111 (binary)\n - FF (hexadecimal) " + userInput);
         }
     }
     
-    public void handleNumberConversion(int decimalValue, String message) {
-        System.out.println(message);
-        System.out.println("\nThe decimal equivalent is: " + decimalValue);
-        System.out.println("The binary equivalent is: " + conversionService.decToBin(decimalValue));
-        System.out.println("The hexadecimal equivalent is: " + conversionService.decToHex(decimalValue));
+    public void numberConversion() {
+        String userNumber = promptNumber();        
+        Conversion conversion = conversionService.newConversion(userNumber);
+        handleNumberConversion(conversion);       
+        promptEnterKey("\nPress \"ENTER\" to return to the main menu ");
     }
+    
+    public void handleNumberConversion(Conversion conversion) {
+        if (conversion.isDecimal()) {
+            System.out.println("\nThe number you've entered is a decimal number: " + conversion.getOriginalValue());
+            System.out.println("- The binary equivalent is: " + conversionService.decToBin(Integer.parseInt(conversion.getOriginalValue())));
+            System.out.println("- The hexadecimal equivalent is: " + conversionService.decToHex(Integer.parseInt(conversion.getOriginalValue())));
+        }
+        if (conversion.isHexadecimal()) {
+            if (conversion.isDecimal()) {
+                System.out.println("\nThe number you've entered is a hexadecimal number as well: " + conversion.getOriginalValue());
+            } else {
+                System.out.println("\nThe number you've entered is a hexadecimal number: " + conversion.getOriginalValue());
+            }            
+            System.out.println("- The decimal equivalent is: " + conversionService.hexToDec(conversion.getOriginalValue()));
+            System.out.println("- The binary equivalent is: " + conversionService.decToBin(conversionService.hexToDec(conversion.getOriginalValue())));
+        }
+        if (conversion.isBinary()) {
+            System.out.println("\nThe number you've entered is a binary number: " + conversion.getOriginalValue());
+            System.out.println("- The decimal equivalent is: " + conversionService.binToDec(conversion.getOriginalValue()));
+            System.out.println("- The hexadecimal equivalent is: " + conversionService.decToHex(conversionService.binToDec(conversion.getOriginalValue())));
+        }
+    }
+
+    public final static void clearConsole(){
+        System.out.print("\033[H\033[2J");  
+        System.out.flush();  
+    }
+    
 }

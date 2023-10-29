@@ -4,14 +4,13 @@ todo:
 - create user input to prompt for the amount of questions they want to answer
 - add a scoring system
 - add 1 minute timer
-- create user input to prompt if they want to use a timer
+- prompt user if they want to use a timer
 - make timer adjustable
-- create user input to prompt if they want to use a timer
+- prompt user to set the timer
 - create Repository layer
 - store results locally
 - add high score system
 - store high scores locally
-
 
 nicetohave:
 - accept 1 digit hexadecimal numbers
@@ -65,3 +64,19 @@ completed:
 - add comments to Constants class
 - add mainMenu in controller to navigate between number conversion and challenge
 - update todo.txt
+
+29-10-2023
+- add promptEnterKey function to Controller
+- add clearConsole function to Controller
+- update mainMenu method of Controller: print information to user after invalid input and press enter to continue
+- update mainMenu method of Controller: redo conditional logic and clearConsole at the beginning of each iteration to have a fresh menu screen
+- update mainMenu method of Controller: add goodbye message when quitting the program
+- update various print statements in Controller class to improve layout
+- rework numberConversion and handleNumberConversion methods of Controller
+- add promptNumber method to Controller
+- add Conversion object class
+- add newConversion method to ConversionService class
+- add isValidNumber method to InputValidationService
+- rename validHexadecimal to isValidHexadecimal
+- rename validBinary to isValidBinary
+
