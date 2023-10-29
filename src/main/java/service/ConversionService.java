@@ -1,7 +1,34 @@
 package service;
 import model.Constants;
+import model.Conversion;
 
-public class ConversionService {   
+public class ConversionService {
+    
+    InputValidationService inputValidationService = new InputValidationService();
+
+    public Conversion newConversion(String userNumber) {
+        Conversion conversion = new Conversion(userNumber);
+        
+        if (inputValidationService.isValidDecimal(userNumber, 0, 255)) {
+            conversion.setDecimal(true);
+        } else {
+            conversion.setDecimal(false);
+        }
+
+        if (inputValidationService.isValidBinary(userNumber)) {
+            conversion.setBinary(true);
+        } else {
+            conversion.setBinary(false);
+        }
+
+        if (inputValidationService.isValidHexadecimal(userNumber)) {
+            conversion.setHexadecimal(true); 
+        } else {
+            conversion.setHexadecimal(false);
+        }
+
+        return conversion;
+    }
     
     // Converts a decimal number with a value of max 255 into a 2 digit hexadecimal number.
     public String decToHex(int decimal) {

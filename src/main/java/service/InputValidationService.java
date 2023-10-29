@@ -24,9 +24,21 @@ public class InputValidationService {
         return isValidRange(parsedValue, minValue, maxValue);
     }
 
+    public boolean isValidNumber(String input) {
+        if (isValidDecimal(input, 0, 255)) {
+            return true;
+        } else if (isValidHexadecimal(input)) {
+            return true;
+        } else if (isValidBinary(input)) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
 
     // Checks whether the user input is a 2 digit hexadecimal number.
-    public boolean validHexadecimal(String input) {
+    public boolean isValidHexadecimal(String input) {
         if (input.length() != 2) {
             return false;
         }
@@ -34,7 +46,7 @@ public class InputValidationService {
     }
     
     // Checks whether the user input is an 8 digit binary number.
-    public boolean validBinary(String input) {
+    public boolean isValidBinary(String input) {
         if (!(input.length() == 8)) return false;
         for (int i = 0; i < input.length(); i++) {
             if (!((input.charAt(i) == '0') || (input.charAt(i) == '1'))) return false;
