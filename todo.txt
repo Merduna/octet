@@ -66,6 +66,11 @@ completed:
 - update todo.txt
 
 29-10-2023
+- add Conversion object class
+- add newConversion method to ConversionService class
+- add isValidNumber method to InputValidationService
+- rename validHexadecimal to isValidHexadecimal
+- rename validBinary to isValidBinary
 - add promptEnterKey function to Controller
 - add clearConsole function to Controller
 - update mainMenu method of Controller: print information to user after invalid input and press enter to continue
@@ -74,9 +79,5 @@ completed:
 - update various print statements in Controller class to improve layout
 - rework numberConversion and handleNumberConversion methods of Controller
 - add promptNumber method to Controller
-- add Conversion object class
-- add newConversion method to ConversionService class
-- add isValidNumber method to InputValidationService
-- rename validHexadecimal to isValidHexadecimal
-- rename validBinary to isValidBinary
-
+- add .gitignore file
+- update todo.txt
